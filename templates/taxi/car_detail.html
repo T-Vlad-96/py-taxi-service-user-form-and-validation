@@ -2,26 +2,24 @@
 
 {% block content %}
   <h1>
+    <stron>Model:</stron>
     {{ car.model }}
   </h1>
   <p><strong>Manufacturer: </strong>({{ car.manufacturer.name }}, {{ car.manufacturer.country }})</p>
   <div class="ml-3">
-    <h3>
-      Drivers
-      <div class="link-to-page">
-        {% if user in car.drivers.all %}
-          <a href="{% url 'taxi:assign-or-delete-user-in-car-drivers-list' pk=car.id %}"
-             class="link-to-page btn btn-danger">
-            Delete me from this car
-          </a>
-        {% else %}
-          <a href="{% url 'taxi:assign-or-delete-user-in-car-drivers-list' pk=car.id %}"
-             class="link-to-page btn btn-success">
-            Assign me to this car
-          </a>
-        {% endif %}
-      </div>
-    </h3>
+    <strong>Drivers: </strong>
+    <form
+        action="{% url 'taxi:assign-or-delete-user-in-car-drivers-list' pk=car.id %}"
+        method="post"
+        class="link-to-page"
+    >
+      {% csrf_token %}
+      {% if user in car.drivers.all %}
+        <input type="submit" value="Delete me from this car" class="btn btn-danger">
+      {% else %}
+        <input type="submit" value="Assign me to this car" class="btn btn-success">
+      {% endif %}
+    </form>
     <hr>
     <ul style="list-style: none; margin: 0; padding: 0">
       {% for driver in car.drivers.all %}

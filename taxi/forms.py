@@ -31,7 +31,7 @@ class DriverCreationForm(UserCreationForm):
         )
 
 
-class DriverLicenseUpdateForm(forms.Form):
+class DriverLicenseUpdateForm(forms.ModelForm):
     license_number = CharField(
         validators=[
             validate_upper_case,
@@ -39,6 +39,10 @@ class DriverLicenseUpdateForm(forms.Form):
             validate_length,
         ],
     )
+
+    class Meta:
+        model = Driver
+        fields = ("license_number",)
 
 
 class CarCreationForm(forms.ModelForm):
